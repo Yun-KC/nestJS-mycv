@@ -4,6 +4,6 @@ POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "wjdrlf@wjdrlf.com",
-  "password": "1Q2W3E",
+  "email": "wjdrlf@naver.com",
+  "password": "1Q2W3E"
 }
