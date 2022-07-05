@@ -47,7 +47,6 @@ export class UsersService {
       save의 경우 하나의 트랜잭션으로 INSERT INTO를 감싸 실행하지만
       insert는 단순한 INSERT INTO 명령을 실행한다.
     */
-
     return this.repo.save(user);
   }
 
@@ -67,5 +66,13 @@ export class UsersService {
     if (!user) throw new Error('유저를 찾을 수 없습니다.');
     Object.assign(user, attrs);
     return this.repo.save(user);
+  }
+
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) throw new Error('유저를 찾을 수 없습니다.');
+    // remove(Entity가 필요), delete({where:{id}}) Entity 필요 X;
+    // remove는 Entity에 적용된 Hooks를 호출함, delete는 호출하지 않음
+    return this.repo.remove(user);
   }
 }

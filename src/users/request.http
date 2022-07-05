@@ -1,15 +1,6 @@
-### Create a new user
+## Create a new user
 
-# POST http://localhost:3000/auth/signup
-# Content-Type: application/json
-
-# {
-#   "email": "으갸갸@er.com",
-#   "password": "1Q2W3E"
-# }
-
-
-POST http://localhost:3000/auth/update
+POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
