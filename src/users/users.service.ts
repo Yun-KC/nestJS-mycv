@@ -50,4 +50,14 @@ export class UsersService {
 
     return this.repo.save(user);
   }
+
+  findOne(id: number) {
+    // 하나의 레코드 또는 null을 리턴
+    return this.repo.findOne({ where: { id } });
+  }
+
+  find(email: string) {
+    // 여러개의 레코드를 배열로 리턴 또는  찾는 사용자가 없을 경우 빈 배열을 리턴
+    return this.repo.find({ where: { email } });
+  }
 }
