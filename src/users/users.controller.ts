@@ -10,4 +10,8 @@ export class UsersController {
   createUser(@Body() body: CreateUserDto) {
     return this.usersService.create(body);
   }
+  @Post('/update')
+  updateUser(@Body() body: any) {
+    return this.usersService.update(1, { email: '무야야야홍' });
+  }
 }

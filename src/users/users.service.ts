@@ -60,4 +60,12 @@ export class UsersService {
     // 여러개의 레코드를 배열로 리턴 또는  찾는 사용자가 없을 경우 빈 배열을 리턴
     return this.repo.find({ where: { email } });
   }
+  async update(id: number, attrs: Partial<User>) {
+    // https://kyounghwan01.github.io/blog/TS/fundamentals/utility-types
+    // Partial은 특정 타입의 부분 집합을 만족하는 타입을 정의할 수 있습니다.
+    const user = await this.findOne(id);
+    if (!user) throw new Error('유저를 찾을 수 없습니다.');
+    Object.assign(user, attrs);
+    return this.repo.save(user);
+  }
 }
