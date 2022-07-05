@@ -25,8 +25,29 @@ export class UsersService {
 
     const user = this.repo.create({ email, password });
     const resultForValidateUserEntity = await validate(user);
+
     if (resultForValidateUserEntity.length !== 0)
       return '적절하지 않은 엔티티입니다.';
+
+    /* 
+      user 객체는 user.email = "test@test.com" 으로 필드값을 변경할 수 있다.
+      user Entity에 모든 필드를 private로 변경하면
+      this.repo.create에서 오류가 발생한다.
+      왜? entity의 필드 값은 private가 아닐까?
+      https://stackoverflow.com/questions/51860432/typeorm-repository-create-not-setting-values
+    */
+
+    /*
+      this.repo.insert(user);
+      insert와 save의 차이점은 뭘까?
+      insert는 단일 엔티티를 저장하는 반면
+      save는 영향을 받는 모든 테이블에 보류중인 모든 엔티티를 삽입한다.
+      
+      typeORM logging를 살펴보면
+      save의 경우 하나의 트랜잭션으로 INSERT INTO를 감싸 실행하지만
+      insert는 단순한 INSERT INTO 명령을 실행한다.
+    */
+
     return this.repo.save(user);
   }
 }
