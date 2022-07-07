@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './users.entity';
@@ -26,8 +26,7 @@ export class UsersService {
     const user = this.repo.create({ email, password });
     const resultForValidateUserEntity = await validate(user);
 
-    if (resultForValidateUserEntity.length !== 0)
-      return '적절하지 않은 엔티티입니다.';
+    if (resultForValidateUserEntity.length !== 0) return '적절하지 않은 엔티티입니다.';
 
     /* 
       user 객체는 user.email = "test@test.com" 으로 필드값을 변경할 수 있다.
@@ -50,9 +49,12 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  findOne(id: number) {
-    // 하나의 레코드 또는 null을 리턴
-    return this.repo.findOne({ where: { id } });
+  async findOne(id: number) {
+    // 하나의 레코드 또는 찾는 레코드가 없다면 예외 처리
+
+    const user = await this.repo.findOne({ where: { id } });
+    if (!user) throw new NotFoundException('유저를 찾을 수 없습니다.');
+    return user;
   }
 
   find(email: string) {
