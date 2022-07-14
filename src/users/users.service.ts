@@ -50,8 +50,12 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    // 하나의 레코드 또는 찾는 레코드가 없다면 예외 처리
-
+    /* 
+    하나의 레코드 또는 찾는 레코드가 없다면 예외 처리를 한다.
+    findOne 메서드를 사용하는 remove, update 메서드 에서는 
+    user 결과에 대한 익셉션을 중복으로 발생시킬 이유가 있을까?
+    
+    */
     const user = await this.repo.findOne({ where: { id } });
     if (!user) throw new NotFoundException('유저를 찾을 수 없습니다.');
     return user;
@@ -65,14 +69,15 @@ export class UsersService {
     // https://kyounghwan01.github.io/blog/TS/fundamentals/utility-types
     // Partial은 특정 타입의 부분 집합을 만족하는 타입을 정의할 수 있습니다.
     const user = await this.findOne(id);
-    if (!user) throw new Error('유저를 찾을 수 없습니다.');
+    // if (!user) throw new Error('유저를 찾을 수 없습니다.');
     Object.assign(user, attrs);
     return this.repo.save(user);
   }
 
   async remove(id: number) {
     const user = await this.findOne(id);
-    if (!user) throw new Error('유저를 찾을 수 없습니다.');
+    // if (!user) throw new Error('유저를 찾을 수 없습니다.');
+
     // remove(Entity가 필요), delete({where:{id}}) Entity 필요 X;
     // remove는 Entity에 적용된 Hooks를 호출함, delete는 호출하지 않음
     return this.repo.remove(user);

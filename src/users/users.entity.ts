@@ -1,12 +1,5 @@
 import { IsEmail } from 'class-validator';
-import {
-  AfterInsert,
-  AfterUpdate,
-  AfterRemove,
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { AfterInsert, AfterUpdate, AfterRemove, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
