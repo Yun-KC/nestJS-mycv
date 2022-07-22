@@ -22,7 +22,6 @@ export class UsersService {
     });
   
     */
-
     const user = this.repo.create({ email, password });
     const resultForValidateUserEntity = await validate(user);
 
